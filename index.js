@@ -1,20 +1,23 @@
 const express = require("express");
 const app = express();
 
+app.set("view engine", "ejs");
+app.use(express.urlencoded());
+
 app.get("/", (req, res) => {
-  res.send("Welcome to Dashboard");
+  res.render("dashboard");
 });
 
 app.get("/login", (req, res) => {
-  res.send("Welcome to login");
+  res.render("login");
 });
 
 app.get("/register", (req, res) => {
-  res.send("Welcome to Register");
+  res.render("register");
 });
 
 app.get("/update", (req, res) => {
-  res.send("Welcome to update");
+  res.render("update");
 });
 
 app.post("/login", (req, res) => {
