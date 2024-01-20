@@ -27,10 +27,17 @@ client.connect((err) => {
   }
 });
 
+const check = (req, res, next) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  next();
+};
+
 app.set("view engine", "ejs");
 app.use(express.urlencoded());
 
-app.get("/", (req, res) => {
+app.get("/", check, (req, res) => {
   res.render("dashboard", { user: req.session.user });
 });
 
@@ -42,8 +49,13 @@ app.get("/register", (req, res) => {
   res.render("register");
 });
 
-app.get("/update", (req, res) => {
+app.get("/update", check, (req, res) => {
   res.render("update", { user: req.session.user });
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/login");
 });
 
 app.post("/login", (req, res) => {
